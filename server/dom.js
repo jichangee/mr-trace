@@ -24,20 +24,27 @@ const getActionList = (dom) => {
   const imageClass = "img.lazyload"; // 封面
   const titleClass = ".video-info-header h3 a"; // 标题
   const numberClass = ".video-serial"; // 集数
+  const typeClass = '.video-info-aux a'
   const itemList = dom.window.document
     .querySelector(parentClass)
     .querySelectorAll(itemClass);
   for (let index = 0; index < itemList.length; index++) {
     const element = itemList[index];
     try {
-      const image = element.querySelector(imageClass).getAttribute("data-src");
+      let image = element.querySelector(imageClass).getAttribute("data-src");
       const title = element.querySelector(titleClass).innerHTML;
       const numberStr = element.querySelector(numberClass).innerHTML;
-      const number = dealNumber(numberStr);
+      const type = element.querySelector(typeClass).getAttribute('title')
+      const number = type === '电影' ? 1 : dealNumber(numberStr);
+      // 部分图片无前缀
+      if (image.startsWith('/upload')) {
+        image = 'http://dianying.im' + image
+      }
       list.push({
         title,
         image,
         number,
+        type
       });
     } catch (error) {
       console.log("element", element.innerHTML);

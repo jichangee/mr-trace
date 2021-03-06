@@ -1,13 +1,7 @@
 .movie-list {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 20px;
+  margin: 20px 20px 0;
 }
 .movie-list > a {
-  width: 48%;
-  border-radius: 10px;
   overflow: hidden;
-}
-.movie-list > a:nth-child(2n -1) {
-  margin-right: 4%;
+  margin-bottom: 20px;
 }

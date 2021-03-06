@@ -2,9 +2,11 @@ import "./App.css";
 import { useState } from "react";
 import SearchInput from "./components/SearchInput";
 import MovieList from "./components/MovieList";
+import { Button } from 'antd'
 function App() {
   const [movieList, setMovieList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isNone, setIsNone] = useState(false);
   function onSearch(keyword) {
     setMovieList([])
     setLoading(true)
@@ -14,7 +16,9 @@ function App() {
       })
       .then((res) => {
         if (res.code === 200) {
-          setMovieList(res.data);
+          const data = res.data
+          setMovieList(data);
+          setIsNone(!data.length)
         }
       }).finally(() => {
         setLoading(false)
@@ -25,9 +29,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1 className="title">追剧先生</h1>
-        <SearchInput onSearch={onSearch} loading={loading} />
+        <Button type="link">设置邮箱</Button>
       </header>
-      <MovieList list={movieList} />
+      <SearchInput onSearch={onSearch} loading={loading} />
+      <MovieList list={movieList} loading={loading} isNone={isNone} />
     </div>
   );
 }

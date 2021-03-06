@@ -1,7 +1,15 @@
 @import '~antd/dist/antd.css';
 .App{
-  padding: 20px;
+  padding: 10px 0 20px;
+}
+.App-header {
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .App-header h1{
-  text-align: center;
+  margin: 5px 0;
+  font-size: 18px;
+  font-weight: 500;
 }
