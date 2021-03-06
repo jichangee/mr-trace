@@ -1,0 +1,15 @@
+.movie-item {
+  color: #333;
+}
+.image{
+  width: 100%;
+}
+.title{
+  font-weight: bold;
+  font-size: 14px;
+  margin: 10px 0 5px;
+}
+.info{
+  color: #888;
+  font-size: 12px;
+}
