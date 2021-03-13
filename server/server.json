@@ -1,0 +1,9 @@
+{
+  "apps": [
+      {
+          "name": "mr-trace",
+          "script": "node",
+          "args" : "app.js"
+      }
+  ]
+}
