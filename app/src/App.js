@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { setLoading } from './redux/actions'
 import SearchInput from './components/SearchInput'
 import MovieList from './components/MovieList'
+import BASE_URL from './config'
 // import EmailBox from './components/EmailBox'
 import { Button } from 'antd'
 import axios from 'axios'
@@ -16,7 +17,7 @@ function App(props) {
     props.setLoading(true)
 
     axios
-      .get('http://localhost:8090/search?f=true&q=' + keyword)
+      .get(BASE_URL + '/search?f=true&q=' + keyword)
       .then((res) => {
         if (res.status === 200) {
           console.log('res', res)

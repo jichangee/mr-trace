@@ -1,11 +1,12 @@
 import React from 'react'
 import { Button, message } from 'antd';
+import BASE_URL from '../../config'
 import axios from 'axios'
 import './item.css'
 import { connect } from 'react-redux';
 function MovieItem(props) {
   function subscribe() {
-    axios.post('http://localhost:8090/subscribe', {
+    axios.post(BASE_URL + '/subscribe', {
       ...props
     }).then(res => {
       if (res.status === 200) {
