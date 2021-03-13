@@ -1,7 +1,20 @@
 import React from 'react'
-import { Button } from 'antd';
+import { Button, message } from 'antd';
+import axios from 'axios'
 import './item.css'
-export default function MovieItem(props) {
+import { connect } from 'react-redux';
+function MovieItem(props) {
+  function subscribe() {
+    axios.post('http://localhost:8090/subscribe', {
+      ...props
+    }).then(res => {
+      if (res.status === 200) {
+        message.success(res.data.msg)
+      } else {
+        message.warning(res.data.msg)
+      }
+    })
+  }
   return (
     <a href="javascript:;" className="movie-item">
       <img className="image" src={props.image} />
@@ -10,8 +23,12 @@ export default function MovieItem(props) {
           <h3 className="title">{props.title}</h3>
           <p className="info">{props.type === '电影' ? props.type : `更新至${props.number}集`}</p>
         </div>
-        <Button type="primary">订阅更新</Button>
+        <Button type="primary" onClick={subscribe}>订阅更新</Button>
       </div>
     </a>
   )
 }
+
+export default connect(state => ({
+  email: state.index.email
+}))(MovieItem)

@@ -7,7 +7,9 @@ const urls = [
 
 const getHTML = (url) => {
   return new Promise((resolve, reject) => {
-    request.get(url, (err, res, body) => {
+    request.get(url, {
+      timeout: 5000
+    }, (err, res, body) => {
       if (err) {
         reject(err);
         return;
@@ -25,6 +27,7 @@ const getActionList = (dom) => {
   const titleClass = ".video-info-header h3 a"; // 标题
   const numberClass = ".video-serial"; // 集数
   const typeClass = '.video-info-aux a'
+  const idClass = 'a.video-serial'
   const itemList = dom.window.document
     .querySelector(parentClass)
     .querySelectorAll(itemClass);
@@ -35,12 +38,19 @@ const getActionList = (dom) => {
       const title = element.querySelector(titleClass).innerHTML;
       const numberStr = element.querySelector(numberClass).innerHTML;
       const type = element.querySelector(typeClass).getAttribute('title')
+      let movieId = '';
+      try {
+        movieId = element.querySelector(idClass).getAttribute('href').match(/\d+/)[0]
+      } catch (error) {
+        
+      }
       const number = type === '电影' ? 1 : dealNumber(numberStr);
       // 部分图片无前缀
       if (image.startsWith('/upload')) {
         image = 'http://dianying.im' + image
       }
       list.push({
+        movieId,
         title,
         image,
         number,
@@ -68,16 +78,39 @@ const dealNumber = (numberStr) => {
  * @param {number} urlIndex 搜索源
  */
 const search = (title, urlIndex = 0) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const url = urls[urlIndex].replace("${title}", encodeURIComponent(title));
     getHTML(url).then((html) => {
       const dom = new JSDOM(html);
-      const actionList = getActionList(dom);
+      const actionList = getActionList(dom).slice(0, 10);
       resolve(actionList);
-    });
+    }).catch(err => {
+      reject(err)
+    })
   });
 };
 
+const getNumberByMovieIdAndTitle = (movieId, title) => {
+  return new Promise((resolve, reject) => {
+    if (!movieId || !title) {
+      reject({ code: 400, data: false })
+      return
+    } else {
+      search(title).then(movieList => {
+        const movieItem = movieList.find(item => item.movieId === movieId)
+        if (movieItem) {
+          resolve({ code: 200, data: movieItem.number })
+        } else {
+          reject({ code: 200, data: false })
+        }
+      }).catch((err) => {
+        reject(err)
+      })
+    }
+  })
+}
+
 module.exports = {
-  search
+  search,
+  getNumberByMovieIdAndTitle
 }

@@ -1,9 +1,10 @@
 const mysql = require("mysql");
+const config = require('../config.json')
 const connection = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "123123",
-  database: "mr_trace",
+  host: config.mysql.host,
+  user: config.mysql.user,
+  password: config.mysql.password,
+  database: config.mysql.database
 });
 connection.connect(function (err) {
   if (err) {

@@ -1,9 +1,10 @@
 import React from 'react'
 import { Input } from 'antd'
 import './index.css'
-const { Search } = Input;
+import { connect } from 'react-redux'
+const { Search } = Input
 
-export default function SearchInput(props) {
+function SearchInput(props) {
   function onSearch(value) {
     props.onSearch && props.onSearch(value)
   }
@@ -21,3 +22,7 @@ export default function SearchInput(props) {
     </div>
   )
 }
+
+export default connect((state) => ({ loading: state.index.loading }))(
+  SearchInput
+)
