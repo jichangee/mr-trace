@@ -18,6 +18,6 @@ app.use(router.routes())
 
 app.listen(8090)
 
-startSubscribeTask()
+setTimeout(startSubscribeTask, 5000)
 
 console.log('listen in http://localhost:8090');

@@ -80,6 +80,7 @@ const dealNumber = (numberStr) => {
 const search = (title, urlIndex = 0) => {
   return new Promise((resolve, reject) => {
     const url = urls[urlIndex].replace("${title}", encodeURIComponent(title));
+    console.log('search title', title)
     getHTML(url).then((html) => {
       const dom = new JSDOM(html);
       const actionList = getActionList(dom).slice(0, 10);
@@ -97,6 +98,7 @@ const getNumberByMovieIdAndTitle = (movieId, title) => {
       return
     } else {
       search(title).then(movieList => {
+        console.log('movieList', movieList)
         const movieItem = movieList.find(item => item.movieId === movieId)
         if (movieItem) {
           resolve({ code: 200, data: movieItem.number })
