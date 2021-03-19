@@ -79,7 +79,7 @@ const dealNumber = (numberStr) => {
  */
 const search = (title, urlIndex = 0) => {
   return new Promise((resolve, reject) => {
-    const url = urls[urlIndex].replace("${title}", encodeURIComponent(title));
+    const url = urls[urlIndex].replace("${title}", encodeURI(title));
     console.log('search title', title)
     getHTML(url).then((html) => {
       const dom = new JSDOM(html);
